@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(
             rootViewController: homeController
         )
-
+        FlutterInit.shared.navigationController = navigationController
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

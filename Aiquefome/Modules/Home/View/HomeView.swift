@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 protocol HomeViewDelegate: AnyObject {
-    func openFutterModule()
+    func openCouponsFutterModule()
+    func openOrdersFutterModule()
 }
 
 class HomeView: UIView {
@@ -29,7 +30,16 @@ class HomeView: UIView {
         menuButton.setTitle("Cupons", for: .normal)
         menuButton.setTitleColor(.black, for: .normal)
         menuButton.backgroundColor = .lightGray
-        menuButton.addTarget(self, action: #selector(openFlutterModulo), for: .touchUpInside)
+        menuButton.addTarget(self, action: #selector(openCouponsFlutterModule), for: .touchUpInside)
+        return menuButton
+    }()
+    
+    lazy var ordersMenuButton: UIButton = {
+        let menuButton = UIButton(frame: CGRect(x: 50, y: 100, width: 150, height: 50))
+        menuButton.setTitle("Meus Pedidos", for: .normal)
+        menuButton.setTitleColor(.black, for: .normal)
+        menuButton.backgroundColor = .lightGray
+        menuButton.addTarget(self, action: #selector(openOrdersFlutterModule), for: .touchUpInside)
         return menuButton
     }()
     
@@ -69,9 +79,14 @@ class HomeView: UIView {
         }
     }
     
-    @objc func openFlutterModulo() {
+    @objc func openCouponsFlutterModule() {
         closeSideMenu()
-        delegate?.openFutterModule()
+        delegate?.openCouponsFutterModule()
+    }
+    
+    @objc func openOrdersFlutterModule() {
+        closeSideMenu()
+        delegate?.openOrdersFutterModule()
     }
 }
 
@@ -79,6 +94,7 @@ extension HomeView: CodeView {
     func buildViewHierarchy() {
         addSubview(sideMenuView)
         sideMenuView.addSubview(couponMenuButton)
+        sideMenuView.addSubview(ordersMenuButton)
     }
     
     func setupConstraints() {
@@ -97,9 +113,15 @@ extension HomeView: CodeView {
         couponMenuButton.anchor(
             top: sideMenuView.topAnchor,
             leading: sideMenuView.leadingAnchor,
-            bottom: sideMenuView.bottomAnchor,
             trailing: sideMenuView.trailingAnchor,
             paddingTop: 100
+        )
+        
+        ordersMenuButton.anchor(
+            top: couponMenuButton.bottomAnchor,
+            leading: sideMenuView.leadingAnchor,
+            trailing: sideMenuView.trailingAnchor,
+            paddingTop: 18
         )
     }
     

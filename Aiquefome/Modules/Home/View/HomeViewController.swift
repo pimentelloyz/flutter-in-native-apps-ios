@@ -31,6 +31,12 @@ final class HomeViewController: UIViewController {
         setupNavigationBarItems()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("Voltou")
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     func setupNavigationBarItems() {
         let icon1 = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(icon1Tapped))
         
@@ -56,9 +62,12 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: HomeViewDelegate {
-    func openFutterModule() {
-        let flutterModule = FlutterInit.shared.flutterModule
-        navigationController?.pushViewController(flutterModule, animated: true)
+    func openCouponsFutterModule() {
+        FlutterInit.shared.openMainFlutterModule()
+    }
+    
+    func openOrdersFutterModule() {
+        FlutterInit.shared.route(to: "/order")
     }
 }
 
