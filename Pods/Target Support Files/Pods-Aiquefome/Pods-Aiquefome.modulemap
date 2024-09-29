@@ -1,0 +1,6 @@
+framework module Pods_Aiquefome {
+  umbrella header "Pods-Aiquefome-umbrella.h"
+
+  export *
+  module * { export * }
+}
