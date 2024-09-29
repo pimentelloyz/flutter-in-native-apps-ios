@@ -21,6 +21,7 @@
 		81382F232CA8F4CB006B1FF0 /* HomeViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F222CA8F4CB006B1FF0 /* HomeViewControllerFactory.swift */; };
 		81382F252CA8F4FC006B1FF0 /* HomeInteractorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F242CA8F4FC006B1FF0 /* HomeInteractorFactory.swift */; };
 		81382F272CA8F543006B1FF0 /* HomeRouterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F262CA8F543006B1FF0 /* HomeRouterFactory.swift */; };
+		81382F292CA9EB5E006B1FF0 /* FlutterHomeViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F282CA9EB5E006B1FF0 /* FlutterHomeViewControllerFactory.swift */; };
 		817CCF772CA8DA0600340FC9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF762CA8DA0600340FC9 /* HomeView.swift */; };
 		817CCF792CA8DA1500340FC9 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF782CA8DA1500340FC9 /* HomeInteractor.swift */; };
 		817CCF7B2CA8DA1E00340FC9 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF7A2CA8DA1E00340FC9 /* HomePresenter.swift */; };
@@ -57,6 +58,7 @@
 		81382F222CA8F4CB006B1FF0 /* HomeViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerFactory.swift; sourceTree = "<group>"; };
 		81382F242CA8F4FC006B1FF0 /* HomeInteractorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractorFactory.swift; sourceTree = "<group>"; };
 		81382F262CA8F543006B1FF0 /* HomeRouterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouterFactory.swift; sourceTree = "<group>"; };
+		81382F282CA9EB5E006B1FF0 /* FlutterHomeViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterHomeViewControllerFactory.swift; sourceTree = "<group>"; };
 		817CCF762CA8DA0600340FC9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		817CCF782CA8DA1500340FC9 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		817CCF7A2CA8DA1E00340FC9 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				81382F222CA8F4CB006B1FF0 /* HomeViewControllerFactory.swift */,
 				81382F242CA8F4FC006B1FF0 /* HomeInteractorFactory.swift */,
 				81382F262CA8F543006B1FF0 /* HomeRouterFactory.swift */,
+				81382F282CA9EB5E006B1FF0 /* FlutterHomeViewControllerFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				817CCF792CA8DA1500340FC9 /* HomeInteractor.swift in Sources */,
 				81382F1B2CA8F2C8006B1FF0 /* HomeViewController.swift in Sources */,
 				81382F252CA8F4FC006B1FF0 /* HomeInteractorFactory.swift in Sources */,
+				81382F292CA9EB5E006B1FF0 /* FlutterHomeViewControllerFactory.swift in Sources */,
 				81063B672CA0996400153278 /* SceneDelegate.swift in Sources */,
 				81382F202CA8F436006B1FF0 /* HomeViewModel.swift in Sources */,
 				81382F142CA8EECC006B1FF0 /* CodeView.swift in Sources */,

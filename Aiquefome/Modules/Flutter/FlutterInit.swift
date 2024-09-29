@@ -19,7 +19,7 @@ class FlutterInit {
     }
     
     func navigationObserver() {
-        navigationChannel = FlutterMethodChannel(name: "com.example.ai_que_fome_flutter/router",
+        navigationChannel = FlutterMethodChannel(name: "com.example.ai_que_fome_flutter",
                                                      binaryMessenger: flutterModule.binaryMessenger)
         navigationChannel?.setMethodCallHandler { (call: FlutterMethodCall, result: FlutterResult) in
             if call.method == "router" {
@@ -29,7 +29,9 @@ class FlutterInit {
                     switch aiqfRouter {
                     case .back:
                         self.navigationController?.popViewController(animated: true)
-                    case nil:
+                    case .sessionExpired:
+                        self.presentUpdateTokenAlert()
+                    default:
                         break
                     }
                     result(nil)
@@ -40,8 +42,23 @@ class FlutterInit {
         }
     }
     
-    func sendBackNavigationEvent() {
-        navigationChannel?.invokeMethod("router", arguments: ["route": AiqfRouter.back.rawValue])
+    func sendBackNavigationEvent(backToNative: Bool = true) {
+        navigationChannel?.invokeMethod(
+            "router",
+            arguments: [
+                "route": AiqfRouter.back.rawValue,
+                "backToNative": backToNative
+            ]
+        )
+    }
+    
+    func sendSessionExpiredEvent() {
+        navigationChannel?.invokeMethod(
+            "router",
+            arguments: [
+                "route": AiqfRouter.sessionExpired.rawValue,
+            ]
+        )
     }
     
     func openMainFlutterModule() {
@@ -56,8 +73,35 @@ class FlutterInit {
         navigationController?.pushViewController(flutterModule, animated: true)
         sendBackNavigationEvent()
     }
+    
+    func presentUpdateTokenAlert() {
+        let alertController = UIAlertController(title: "Atualizar Token", message: "Deseja atualizar o token?", preferredStyle: .alert)
+        
+        let updateAction = UIAlertAction(title: "Atualizar", style: .default) { _ in
+            self.updateToken()
+            alertController.dismiss(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        alertController.addAction(updateAction)
+        alertController.addAction(cancelAction)
+        
+        if let rootViewController = navigationController?.viewControllers.first {
+            rootViewController.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func updateToken() {
+        navigationChannel?.invokeMethod(
+            "router",
+            arguments: [
+                "route": AiqfRouter.tokenUpdated.rawValue,
+            ]
+        )
+    }
 }
 
 enum AiqfRouter: String, CaseIterable {
     case back = "BACKTONATIVE"
+    case sessionExpired = "SESSIONEXPIRED"
+    case tokenUpdated = "TOKENUPDATED"
 }

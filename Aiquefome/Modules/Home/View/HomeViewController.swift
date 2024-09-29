@@ -33,7 +33,6 @@ final class HomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("Voltou")
         navigationController?.isNavigationBarHidden = false
     }
     
@@ -49,7 +48,7 @@ final class HomeViewController: UIViewController {
     }
     
     @objc func icon2Tapped() {
-        print("Ícone 2 tocado")
+        FlutterInit.shared.sendSessionExpiredEvent()
     }
     
     @objc func icon3Tapped() {
