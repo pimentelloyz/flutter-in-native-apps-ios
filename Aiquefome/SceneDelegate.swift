@@ -10,15 +10,17 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var sideMenuView: UIView?
-
+    var navigationController: UINavigationController?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
         let homeController = HomeViewControllerFactory.make()
         let flutterHomeController = FlutterHomeViewControllerFactory.make()
+        flutterHomeController.view.backgroundColor = .white
         setupNavigationBarItems(viewController: flutterHomeController)
-        let navigationController = UINavigationController(
+        navigationController = UINavigationController(
             rootViewController: flutterHomeController
         )
         FlutterInit.shared.navigationController = navigationController
@@ -43,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     @objc func icon3Tapped() {
-        print("Ícone 3 tocado")
+        navigationController?.pushViewController(FlutterInit.shared.getOrderViewController(), animated: true)
     }
     
     @objc func icon1Tapped() {

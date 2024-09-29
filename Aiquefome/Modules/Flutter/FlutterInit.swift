@@ -7,9 +7,9 @@ class FlutterInit {
     let flutterModule: FlutterViewController
     var navigationController: UINavigationController?
     var navigationChannel: FlutterMethodChannel?
-    
+    let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
+
     private init() {
-        let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
         flutterModule = FlutterViewController(
             engine: flutterEngine,
             nibName: nil,
@@ -28,6 +28,7 @@ class FlutterInit {
                     let aiqfRouter = AiqfRouter(rawValue: route)
                     switch aiqfRouter {
                     case .back:
+                        self.navigationController?.isNavigationBarHidden = false
                         self.navigationController?.popViewController(animated: true)
                     case .sessionExpired:
                         self.presentUpdateTokenAlert()
@@ -40,6 +41,18 @@ class FlutterInit {
                 }
             }
         }
+    }
+    
+    func getOrderViewController() -> UIViewController {
+        let orderViewController = FlutterViewController(
+            engine: flutterEngine,
+            nibName: nil,
+            bundle: nil
+        )
+        orderViewController.pushRoute("/coupon")
+        sendBackNavigationEvent()
+        navigationController?.isNavigationBarHidden = true
+        return orderViewController
     }
     
     func sendBackNavigationEvent(backToNative: Bool = true) {
