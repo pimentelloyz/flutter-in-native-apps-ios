@@ -9,38 +9,39 @@ import Foundation
 import UIKit
 
 protocol HomeViewDelegate: AnyObject {
-    func openCouponsFutterModule()
-    func openOrdersFutterModule()
+    func closeMenu()
 }
 
 class HomeView: UIView {
     var widthConstraint: NSLayoutConstraint?
 
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(HomeProfileTableViewCell.self, forCellReuseIdentifier: HomeProfileTableViewCell.identifier)
+        tableView.register(HomeMenuTableViewCell.self, forCellReuseIdentifier: HomeMenuTableViewCell.identifier)
+        tableView.backgroundColor = .white
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
     lazy var sideMenuView: UIView = {
+        let viewWidth = self.frame.width * 0.8
         let view = UIView()
-        view.backgroundColor = .red
-        view.frame = CGRect(x: -250, y: 0, width: 250, height: frame.height)
+        view.backgroundColor = .white
+        view.frame = CGRect(x: -viewWidth, y: 0, width: viewWidth, height: frame.height)
+        view.layer.cornerRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
-
-    lazy var couponMenuButton: UIButton = {
-        let menuButton = UIButton(frame: CGRect(x: 50, y: 100, width: 150, height: 50))
-        menuButton.setTitle("Cupons", for: .normal)
-        menuButton.setTitleColor(.black, for: .normal)
-        menuButton.backgroundColor = .lightGray
-        menuButton.addTarget(self, action: #selector(openCouponsFlutterModule), for: .touchUpInside)
-        return menuButton
-    }()
     
-    lazy var ordersMenuButton: UIButton = {
-        let menuButton = UIButton(frame: CGRect(x: 50, y: 100, width: 150, height: 50))
-        menuButton.setTitle("Meus Pedidos", for: .normal)
-        menuButton.setTitleColor(.black, for: .normal)
-        menuButton.backgroundColor = .lightGray
-        menuButton.addTarget(self, action: #selector(openOrdersFlutterModule), for: .touchUpInside)
-        return menuButton
+    lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(closeMenu), for: .touchUpInside)
+        button.setImage(UIImage(named: "arrow-left"), for: .normal)
+        return button
     }()
     
     var delegate: HomeViewDelegate?
@@ -64,7 +65,8 @@ class HomeView: UIView {
     }
     
     func openSideMenu() {
-        widthConstraint?.constant = 250
+        let viewWidth = self.frame.width * 0.8
+        widthConstraint?.constant = viewWidth
         UIView.animate(withDuration: 0.3) {
             self.sideMenuView.frame.origin.x = 0
             self.layoutIfNeeded()
@@ -72,34 +74,28 @@ class HomeView: UIView {
     }
     
     func closeSideMenu() {
-        widthConstraint?.constant = -250
+        let viewWidth = self.frame.width * 0.8
+        widthConstraint?.constant = -viewWidth
         UIView.animate(withDuration: 0.3) {
-            self.sideMenuView.frame.origin.x = -250
+            self.sideMenuView.frame.origin.x = -viewWidth
             self.layoutIfNeeded()
         }
-    }
-    
-    @objc func openCouponsFlutterModule() {
-        closeSideMenu()
-        delegate?.openCouponsFutterModule()
-    }
-    
-    @objc func openOrdersFlutterModule() {
-        closeSideMenu()
-        delegate?.openOrdersFutterModule()
     }
 }
 
 extension HomeView: CodeView {
     func buildViewHierarchy() {
         addSubview(sideMenuView)
-        sideMenuView.addSubview(couponMenuButton)
-        sideMenuView.addSubview(ordersMenuButton)
+        sideMenuView.addSubview(tableView)
+        sideMenuView.addSubview(closeButton)
     }
     
     func setupConstraints() {
-        widthConstraint = sideMenuView.widthAnchor.constraint(equalToConstant: 0)
-
+        let viewWidth = self.frame.width * 0.8
+        widthConstraint = sideMenuView.widthAnchor.constraint(
+            equalToConstant: viewWidth
+        )
+        
         NSLayoutConstraint.activate([
             widthConstraint!,
         ])
@@ -110,22 +106,58 @@ extension HomeView: CodeView {
             bottom: bottomAnchor
         )
         
-        couponMenuButton.anchor(
+        tableView.anchor(
             top: sideMenuView.topAnchor,
             leading: sideMenuView.leadingAnchor,
-            trailing: sideMenuView.trailingAnchor,
-            paddingTop: 100
+            trailing: sideMenuView.trailingAnchor
         )
         
-        ordersMenuButton.anchor(
-            top: couponMenuButton.bottomAnchor,
-            leading: sideMenuView.leadingAnchor,
+        closeButton.anchor(
+            top: tableView.bottomAnchor,
+            bottom: sideMenuView.bottomAnchor,
             trailing: sideMenuView.trailingAnchor,
-            paddingTop: 18
+            paddingTop: 12,
+            paddingBottom: 48,
+            paddingRight: 16,
+            width: 32,
+            height: 32
         )
     }
     
     func setupAdditionalConfiguration() {
         backgroundColor = .white
+    }
+    
+    @objc func closeMenu() {
+        delegate?.closeMenu()
+    }
+}
+
+extension HomeView: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeProfileTableViewCell.identifier, for: indexPath) as? HomeProfileTableViewCell
+            return cell ?? UITableViewCell()
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: HomeMenuTableViewCell.identifier, for: indexPath) as? HomeMenuTableViewCell
+            let item = MenuViewModel.menuItemFor(index: indexPath.row)
+            cell?.configure(item: item)
+            return cell ?? UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MenuViewModel.numbersOfRows()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = MenuViewModel.menuItemFor(index: indexPath.row)
+        switch item {
+        case .orders:
+            closeMenu()
+            FlutterInit.shared.route(to: "/order")
+        default:
+            break
+        }
     }
 }

@@ -27,46 +27,11 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = homeView
-        homeView.delegate = self
-        setupNavigationBarItems()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.isNavigationBarHidden = false
-    }
-    
-    func setupNavigationBarItems() {
-        let icon1 = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(icon1Tapped))
-        
-        let icon2 = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(icon2Tapped))
-        
-        let icon3 = UIBarButtonItem(image: UIImage(systemName: "person"), style: .plain, target: self, action: #selector(icon3Tapped))
-        
-        navigationItem.rightBarButtonItems = [icon3, icon2]
-        navigationItem.leftBarButtonItem = icon1
-    }
-    
-    @objc func icon2Tapped() {
-        FlutterInit.shared.sendSessionExpiredEvent()
-    }
-    
-    @objc func icon3Tapped() {
-        print("Ícone 3 tocado")
-    }
-    
-    @objc func icon1Tapped() {
-        homeView.icon1Tapped()
-    }
-}
-
-extension HomeViewController: HomeViewDelegate {
-    func openCouponsFutterModule() {
-        FlutterInit.shared.openMainFlutterModule()
-    }
-    
-    func openOrdersFutterModule() {
-        FlutterInit.shared.route(to: "/order")
     }
 }
 

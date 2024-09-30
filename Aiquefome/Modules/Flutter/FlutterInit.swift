@@ -49,7 +49,7 @@ class FlutterInit {
             nibName: nil,
             bundle: nil
         )
-        orderViewController.pushRoute("/coupon")
+        orderViewController.pushRoute("/order")
         sendBackNavigationEvent()
         navigationController?.isNavigationBarHidden = true
         return orderViewController
@@ -59,8 +59,7 @@ class FlutterInit {
         navigationChannel?.invokeMethod(
             "router",
             arguments: [
-                "route": AiqfRouter.back.rawValue,
-                "backToNative": backToNative
+                "route": AiqfRouter.back.rawValue
             ]
         )
     }
@@ -81,10 +80,17 @@ class FlutterInit {
     }
     
     func route(to route: String) {
-        flutterModule.pushRoute(route)
+        let viewController = FlutterViewController(
+            engine: flutterEngine,
+            nibName: nil,
+            bundle: nil
+        )
+        viewController.pushRoute(route)
         navigationController?.isNavigationBarHidden = true
-        navigationController?.pushViewController(flutterModule, animated: true)
-        sendBackNavigationEvent()
+        navigationController?.pushViewController(viewController, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.sendBackNavigationEvent()
+        }
     }
     
     func presentUpdateTokenAlert() {

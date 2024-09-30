@@ -9,14 +9,13 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    var sideMenuView: UIView?
+    var sideMenuView: HomeView?
     var navigationController: UINavigationController?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let homeController = HomeViewControllerFactory.make()
         let flutterHomeController = FlutterHomeViewControllerFactory.make()
         flutterHomeController.view.backgroundColor = .white
         setupNavigationBarItems(viewController: flutterHomeController)
@@ -30,33 +29,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setupNavigationBarItems(viewController: UIViewController) {
-        let icon1 = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(icon1Tapped))
+        let menuIcon = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3")?.withTintColor(.purple), style: .plain, target: self, action: #selector(menuTaped))
+        let searchIcon = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass")?.withTintColor(.purple), style: .plain, target: self, action: #selector(searchTaped))
+        let chatIcon = UIBarButtonItem(image: UIImage(systemName: "bubble.left.and.bubble.right")?.withTintColor(.purple), style: .plain, target: self, action: #selector(chatTaped))
         
-        let icon2 = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(icon2Tapped))
-        
-        let icon3 = UIBarButtonItem(image: UIImage(systemName: "person"), style: .plain, target: self, action: #selector(icon3Tapped))
-        
-        viewController.navigationItem.rightBarButtonItems = [icon3, icon2]
-        viewController.navigationItem.leftBarButtonItem = icon1
+        viewController.navigationItem.rightBarButtonItems = [chatIcon, searchIcon]
+        viewController.navigationItem.leftBarButtonItem = menuIcon
     }
     
-    @objc func icon2Tapped() {
+    @objc func searchTaped() {
         FlutterInit.shared.sendSessionExpiredEvent()
     }
     
-    @objc func icon3Tapped() {
+    @objc func chatTaped() {
         navigationController?.pushViewController(FlutterInit.shared.getOrderViewController(), animated: true)
     }
     
-    @objc func icon1Tapped() {
+    @objc func menuTaped() {
         toggleSideMenu()
     }
     
     func setupSideMenu() {
-        let menuWidth: CGFloat = (window?.frame.width ?? 0.0) * 0.85
-        sideMenuView = UIView(frame: CGRect(x: -menuWidth, y: 0, width: menuWidth, height: window?.frame.height ?? 0))
-        sideMenuView?.backgroundColor = UIColor.systemGray
-        
+        let menuWidth: CGFloat = (window?.frame.width ?? 0.0)
+        sideMenuView = HomeView(frame: CGRect(x: -menuWidth, y: 0, width: menuWidth, height: window?.frame.height ?? 0))
+        sideMenuView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.1)
+        sideMenuView?.delegate = self
         if let sideMenuView = sideMenuView {
             window?.addSubview(sideMenuView)
         }
@@ -72,6 +69,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             } else {
                 sideMenuView.frame.origin.x = 0
             }
+        }
+    }
+}
+
+extension SceneDelegate: HomeViewDelegate {
+    func closeMenu() {
+        UIView.animate(withDuration: 0.3) {
+            self.sideMenuView?.frame.origin.x = -(self.sideMenuView?.frame.width ?? 1000.0)
         }
     }
 }
