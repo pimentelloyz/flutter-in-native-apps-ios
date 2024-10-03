@@ -25,6 +25,7 @@
 		81382F302CAADFCF006B1FF0 /* HomeProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F2E2CAADFCF006B1FF0 /* HomeProfileTableViewCell.swift */; };
 		81382F322CAB0ED7006B1FF0 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F312CAB0ED7006B1FF0 /* MenuViewModel.swift */; };
 		81382F342CAB2806006B1FF0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F332CAB2806006B1FF0 /* HomeViewController.swift */; };
+		81382F362CAC4E71006B1FF0 /* FlutterHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81382F352CAC4E71006B1FF0 /* FlutterHomeViewController.swift */; };
 		817CCF772CA8DA0600340FC9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF762CA8DA0600340FC9 /* HomeView.swift */; };
 		817CCF792CA8DA1500340FC9 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF782CA8DA1500340FC9 /* HomeInteractor.swift */; };
 		817CCF7B2CA8DA1E00340FC9 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817CCF7A2CA8DA1E00340FC9 /* HomePresenter.swift */; };
@@ -65,6 +66,7 @@
 		81382F2E2CAADFCF006B1FF0 /* HomeProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeProfileTableViewCell.swift; sourceTree = "<group>"; };
 		81382F312CAB0ED7006B1FF0 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		81382F332CAB2806006B1FF0 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		81382F352CAC4E71006B1FF0 /* FlutterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterHomeViewController.swift; sourceTree = "<group>"; };
 		817CCF762CA8DA0600340FC9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		817CCF782CA8DA1500340FC9 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		817CCF7A2CA8DA1E00340FC9 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				81382F332CAB2806006B1FF0 /* HomeViewController.swift */,
 				81382F2C2CAADFC2006B1FF0 /* Cell */,
 				817CCF762CA8DA0600340FC9 /* HomeView.swift */,
+				81382F352CAC4E71006B1FF0 /* FlutterHomeViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81382F362CAC4E71006B1FF0 /* FlutterHomeViewController.swift in Sources */,
 				817CCF7E2CA8DB5300340FC9 /* SupabaseService.swift in Sources */,
 				817CCF772CA8DA0600340FC9 /* HomeView.swift in Sources */,
 				81382F342CAB2806006B1FF0 /* HomeViewController.swift in Sources */,

@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationController = UINavigationController(
             rootViewController: flutterHomeController
         )
+        navigationController?.navigationBar.tintColor = .purple
         FlutterInit.shared.navigationController = navigationController
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
@@ -33,6 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let searchIcon = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass")?.withTintColor(.purple), style: .plain, target: self, action: #selector(searchTaped))
         let chatIcon = UIBarButtonItem(image: UIImage(systemName: "bubble.left.and.bubble.right")?.withTintColor(.purple), style: .plain, target: self, action: #selector(chatTaped))
         
+        viewController.navigationController?.navigationBar.tintColor = .purple
         viewController.navigationItem.rightBarButtonItems = [chatIcon, searchIcon]
         viewController.navigationItem.leftBarButtonItem = menuIcon
     }

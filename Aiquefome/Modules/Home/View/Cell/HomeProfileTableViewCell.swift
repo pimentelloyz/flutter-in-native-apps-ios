@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
+protocol HomeProfileTableViewCellDelegate: AnyObject {
+    func routeToCoupon()
+}
+
 class HomeProfileTableViewCell: UITableViewCell {
     
     static let identifier = "HomeProfileTableViewCell"
+    var delegate: HomeProfileTableViewCellDelegate?
     
     lazy var profileImageContainer: UIView = {
         let view = UIView()
@@ -95,6 +100,112 @@ class HomeProfileTableViewCell: UITableViewCell {
         return label
     }()
     
+    lazy var actionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.spacing = 4
+        stackView.isUserInteractionEnabled = true
+        return stackView
+    }()
+    
+    lazy var couponStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            couponIcon,
+            couponLabel
+        ])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.spacing = 4
+        stackView.isUserInteractionEnabled = true
+        return stackView
+    }()
+    
+    lazy var couponLabel: UILabel = {
+        let label = UILabel()
+        label.text = "cupons"
+        label.textColor = .darkGray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+
+        return label
+    }()
+    
+    lazy var couponIcon: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "coupon")?.withTintColor(.purple), for: .normal)
+        button.addTarget(self, action: #selector(routeToCoupon), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var deliveryStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            deliveryIcon,
+            deliveryLabel
+        ])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.spacing = 4
+        
+        return stackView
+    }()
+    
+    lazy var deliveryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "pombo-correios"
+        label.textAlignment = .center
+        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+
+        return label
+    }()
+    
+    lazy var deliveryIcon: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "carrier-pigeon")?.withTintColor(.purple)
+        return image
+    }()
+    
+    lazy var chatStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            chatIcon,
+            chatLabel
+        ])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.spacing = 4
+        
+        return stackView
+    }()
+    
+    lazy var chatLabel: UILabel = {
+        let label = UILabel()
+        label.text = "falar com o aiq"
+        label.textAlignment = .center
+        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+
+        return label
+    }()
+    
+    lazy var chatIcon: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFit
+        image.image = UIImage(named: "chat-bubble")?.withTintColor(.purple)
+        return image
+    }()
+    
+    lazy var lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -102,6 +213,10 @@ class HomeProfileTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func routeToCoupon() {
+        delegate?.routeToCoupon()
     }
 }
 
@@ -119,6 +234,11 @@ extension HomeProfileTableViewCell: CodeView {
         contentView.addSubview(buttonStackView)
         buttonStackView.addSubview(logoIcon)
         buttonStackView.addSubview(facebookButton)
+        contentView.addSubview(actionStackView)
+        actionStackView.addArrangedSubview(couponStackView)
+        actionStackView.addArrangedSubview(deliveryStackView)
+        actionStackView.addArrangedSubview(chatStackView)
+        contentView.addSubview(lineView)
     }
     
     func setupConstraints() {
@@ -147,14 +267,8 @@ extension HomeProfileTableViewCell: CodeView {
             paddingRight: 8
         )
         
-        logoIcon.anchor(
-            width: 24,
-            height: 24
-        )
-        
         buttonStackView.anchor(
             top: mainStackView.bottomAnchor,
-            bottom: contentView.bottomAnchor,
             centerHorizontal: contentView.centerXAnchor,
             paddingTop: 14,
             paddingBottom: 12,
@@ -166,7 +280,10 @@ extension HomeProfileTableViewCell: CodeView {
             leading: buttonStackView.leadingAnchor,
             bottom: buttonStackView.bottomAnchor,
             paddingTop: 8,
-            paddingBottom: 8
+            paddingLeft: 16,
+            paddingBottom: 8,
+            width: 24,
+            height: 24
         )
         
         facebookButton.anchor(
@@ -175,9 +292,47 @@ extension HomeProfileTableViewCell: CodeView {
             bottom: buttonStackView.bottomAnchor,
             trailing: buttonStackView.trailingAnchor,
             paddingTop: 8,
-            paddingLeft: 18,
+            paddingLeft: 4,
             paddingBottom: 8,
             paddingRight: 18
+        )
+        
+        actionStackView.anchor(
+            top: buttonStackView.bottomAnchor,
+            leading: contentView.leadingAnchor,
+            trailing: contentView.trailingAnchor,
+            paddingTop: 16,
+            paddingLeft: 4,
+            paddingBottom: 8,
+            paddingRight: 24,
+            height: 58
+        )
+        
+        lineView.anchor(
+            top: actionStackView.bottomAnchor,
+            leading: contentView.leadingAnchor,
+            bottom: contentView.bottomAnchor,
+            trailing: contentView.trailingAnchor,
+            paddingTop: 16,
+            paddingLeft: 24,
+            paddingBottom: 16,
+            paddingRight: 24,
+            height: 1
+        )
+        
+        couponIcon.anchor(
+            width: 24,
+            height: 24
+        )
+        
+        deliveryIcon.anchor(
+            width: 24,
+            height: 24
+        )
+        
+        chatIcon.anchor(
+            width: 24,
+            height: 24
         )
     }
     

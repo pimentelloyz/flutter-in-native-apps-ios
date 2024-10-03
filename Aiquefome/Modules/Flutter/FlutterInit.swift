@@ -8,13 +8,21 @@ class FlutterInit {
     var navigationController: UINavigationController?
     var navigationChannel: FlutterMethodChannel?
     let flutterEngine = (UIApplication.shared.delegate as! AppDelegate).flutterEngine
+    // TODO: Multiplo Engine
+//    var navigationChannel2: FlutterMethodChannel?
+//    let flutterModule2: FlutterViewController
+//    let flutterEngine2 = (UIApplication.shared.delegate as! AppDelegate).flutterEngine2
 
     private init() {
-        flutterModule = FlutterViewController(
-            engine: flutterEngine,
-            nibName: nil,
-            bundle: nil
+        flutterModule = FlutterHomeViewController(
+            engine: flutterEngine
         )
+        // TODO: Multiplo Engine
+//        flutterModule2 = FlutterViewController(
+//            engine: flutterEngine2,
+//            nibName: nil,
+//            bundle: nil
+//        )
         navigationObserver()
     }
     
@@ -41,6 +49,30 @@ class FlutterInit {
                 }
             }
         }
+        
+        // TODO: Multiplo Engine
+//        navigationChannel2 = FlutterMethodChannel(name: "com.example.ai_que_fome_flutter",
+//                                                     binaryMessenger: flutterModule2.binaryMessenger)
+//        navigationChannel2?.setMethodCallHandler { (call: FlutterMethodCall, result: FlutterResult) in
+//            if call.method == "router" {
+//                if let args = call.arguments as? [String: Any],
+//                   let route = args["route"] as? String {
+//                    let aiqfRouter = AiqfRouter(rawValue: route)
+//                    switch aiqfRouter {
+//                    case .back:
+//                        self.navigationController?.isNavigationBarHidden = false
+//                        self.navigationController?.popViewController(animated: true)
+//                    case .sessionExpired:
+//                        self.presentUpdateTokenAlert()
+//                    default:
+//                        break
+//                    }
+//                    result(nil)
+//                } else {
+//                    result(FlutterError(code: "INVALID_ARGUMENT", message: "Expected route argument", details: nil))
+//                }
+//            }
+//        }
     }
     
     func getOrderViewController() -> UIViewController {
@@ -59,7 +91,7 @@ class FlutterInit {
         navigationChannel?.invokeMethod(
             "router",
             arguments: [
-                "route": AiqfRouter.back.rawValue
+                "route": AiqfRouter.back.rawValue,
             ]
         )
     }
@@ -86,8 +118,11 @@ class FlutterInit {
             bundle: nil
         )
         viewController.pushRoute(route)
-        navigationController?.isNavigationBarHidden = true
         navigationController?.pushViewController(viewController, animated: true)
+        // TODO: Multiplo Engine
+//        flutterModule2.pushRoute(route)
+//        navigationController?.pushViewController(flutterModule2, animated: true)
+        navigationController?.isNavigationBarHidden = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.sendBackNavigationEvent()
         }
@@ -113,7 +148,7 @@ class FlutterInit {
         navigationChannel?.invokeMethod(
             "router",
             arguments: [
-                "route": AiqfRouter.tokenUpdated.rawValue,
+                "route": AiqfRouter.tokenUpdated.rawValue
             ]
         )
     }

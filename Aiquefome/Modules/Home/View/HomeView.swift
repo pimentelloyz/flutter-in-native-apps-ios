@@ -27,7 +27,7 @@ class HomeView: UIView {
     }()
     
     lazy var sideMenuView: UIView = {
-        let viewWidth = self.frame.width * 0.8
+        let viewWidth = self.frame.width * 0.88
         let view = UIView()
         view.backgroundColor = .white
         view.frame = CGRect(x: -viewWidth, y: 0, width: viewWidth, height: frame.height)
@@ -137,6 +137,7 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeProfileTableViewCell.identifier, for: indexPath) as? HomeProfileTableViewCell
+            cell?.delegate = self
             return cell ?? UITableViewCell()
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: HomeMenuTableViewCell.identifier, for: indexPath) as? HomeMenuTableViewCell
@@ -159,5 +160,12 @@ extension HomeView: UITableViewDataSource, UITableViewDelegate {
         default:
             break
         }
+    }
+}
+
+extension HomeView: HomeProfileTableViewCellDelegate {
+    func routeToCoupon() {
+        closeMenu()
+        FlutterInit.shared.route(to: "/coupon")
     }
 }
